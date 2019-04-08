@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+
+group 'com.pezetem.blog'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.533'
+    compile group: 'com.amazonaws', name: 'aws-lambda-java-events', version: '2.2.6'
+    compile group: 'com.amazonaws', name: 'aws-lambda-java-core', version: '1.2.0'
+}
+
+task buildZip(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.compileClasspath
+    }
+}
+
+build.dependsOn buildZip
+
